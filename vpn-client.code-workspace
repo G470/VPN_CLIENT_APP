@@ -1,0 +1,44 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {},
+	"extensions": {
+		"recommendations": [
+			"golang.go",
+			"ms-vscode.vscode-typescript-next",
+			"dbaeumer.vscode-eslint",
+			"esbenp.prettier-vscode",
+			"bradlc.vscode-tailwindcss",
+			"usernamehw.errorlens",
+			"eamodio.gitlens",
+			"github.vscode-github-actions",
+			"ms-vscode-remote.remote-containers",
+			"tamasfe.even-better-toml"
+		]
+	},
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Launch Electron App",
+				"type": "node",
+				"request": "launch",
+				"cwd": "${workspaceFolder}/gui",
+				"runtimeExecutable": "npm",
+				"runtimeArgs": ["run", "dev"],
+				"outputCapture": "std"
+			},
+			{
+				"name": "Launch Go Backend",
+				"type": "go",
+				"request": "launch",
+				"mode": "debug",
+				"program": "${workspaceFolder}/backend/cmd/vpn-service",
+				"args": []
+			}
+		]
+	}
+}
