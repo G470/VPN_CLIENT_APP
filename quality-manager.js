@@ -1,27 +1,32 @@
 // Quality Manager Script for Ollama LLM integration
 // Watches for file changes, summarizes, and suggests improvements
+// Acts as a lead developer to maintain quality and track improvements
 
 const chokidar = require('chokidar');
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
 
-// Ollama LLM endpoint from your .cursor/mcp.json
-const OLLAMA_HOST = 'http://192.168.178.55:11434';
-const MODEL = 'qwen3-coder:latest';
+// Configuration - can be overridden via environment variables
+const OLLAMA_HOST = process.env.OLLAMA_HOST || 'http://192.168.178.55:11434';
+const MODEL = process.env.OLLAMA_MODEL || 'qwen3-coder:latest';
 const PROJECT_DIR = path.resolve(__dirname);
+const IMPROVEMENTS_FILE = path.join(PROJECT_DIR, 'IMPROVEMENTS.md');
 
-// Helper: Send prompt to Ollama LLM
-async function queryLLM(prompt) {
-  try {
-    const res = await axios.post(`${OLLAMA_HOST}/api/chat`, {
-      model: MODEL,
-      messages: [{ role: 'user', content: prompt }],
-      stream: false
-    });
-    return res.data.message.content;
-  } catch (e) {
-    return `LLM error: ${e.message}`;
+// Helper: Send prompt to Ollama LLM with retry logic
+async function queryLLM(prompt, retries = 3) {
+  for (let i = 0; i < retries; i++) {
+    try {
+      const res = await axios.post(`${OLLAMA_HOST}/api/chat`, {
+        model: MODEL,
+        messages: [{ role: 'user', content: prompt }],
+        stream: false
+      }, { timeout: 30000 });
+      return res.data.message.content;
+    } catch (e) {
+      if (i === retries - 1) return `LLM error after ${retries} attempts: ${e.message}`;
+      await new Promise(resolve => setTimeout(resolve, Math.pow(2, i) * 1000)); // Exponential backoff
+    }
   }
 }
 
