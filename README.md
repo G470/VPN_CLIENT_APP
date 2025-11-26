@@ -56,6 +56,9 @@ vpn-client-app/
 │   └── github-workflow.md    # Git workflow
 ├── scripts/             # Build and utility scripts
 ├── .vscode/             # VS Code configuration
+├── quality-manager.js   # Automated quality management (Lead Dev AI)
+├── package.json         # Quality manager dependencies
+├── IMPROVEMENTS.md      # Global TODO and improvement tracking
 ├── .gitignore
 ├── LICENSE
 └── README.md
@@ -121,6 +124,32 @@ code vpn-client.code-workspace
 Recommended extensions will be automatically suggested. Install them for the best development experience.
 
 ## Development
+
+### Quality Management System
+
+This project includes an automated quality management system that acts as a lead developer:
+
+```bash
+# Install dependencies for quality manager
+npm install
+
+# Start file watcher (monitors changes and provides code reviews)
+npm run watch
+
+# Perform full project scan
+npm run scan
+```
+
+The quality manager:
+- Monitors code changes in real-time
+- Provides automated code reviews using LLM
+- Maintains a global improvement TODO list in `IMPROVEMENTS.md`
+- Suggests architectural improvements
+- Identifies potential bugs and security issues
+
+Configure via environment variables:
+- `OLLAMA_HOST` - LLM API endpoint
+- `OLLAMA_MODEL` - Model to use for analysis
 
 ### Running Tests
 
