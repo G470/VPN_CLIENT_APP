@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VPN Client - Logs</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <div class="logo-icon">V</div>
+        <span>VPN Client</span>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" title="Notifications">🔔</button>
+        <button class="icon-btn" title="Settings">⚙️</button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Sidebar Navigation -->
+      <aside class="sidebar">
+        <nav>
+          <a href="index.html" class="nav-item">
+            <span class="nav-icon">🏠</span>
+            <span>Dashboard</span>
+          </a>
+          <a href="profiles.html" class="nav-item">
+            <span class="nav-icon">📋</span>
+            <span>Profiles</span>
+          </a>
+          <a href="settings.html" class="nav-item">
+            <span class="nav-icon">⚙️</span>
+            <span>Settings</span>
+          </a>
+          <a href="logs.html" class="nav-item active">
+            <span class="nav-icon">📄</span>
+            <span>Logs</span>
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Content Area -->
+      <main class="content-area">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px;">
+          <div>
+            <h1 class="page-title" style="margin-bottom: 0;">System Logs</h1>
+            <p class="page-subtitle" style="margin-bottom: 0;">Real-time VPN client activity</p>
+          </div>
+          <div style="display: flex; gap: 12px;">
+            <button class="btn btn-secondary" onclick="clearLogs()">🗑️ Clear</button>
+            <button class="btn btn-secondary" onclick="exportLogs()">💾 Export</button>
+          </div>
+        </div>
+
+        <!-- Log Filters -->
+        <div class="settings-section" style="margin-bottom: 24px;">
+          <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+            <div class="form-group" style="margin: 0; flex: 1; min-width: 200px;">
+              <label style="margin-bottom: 4px;">Log Level</label>
+              <select class="form-control" onchange="filterLogs(this.value)">
+                <option value="all">All Levels</option>
+                <option value="info">Info</option>
+                <option value="warn">Warning</option>
+                <option value="error">Error</option>
+                <option value="success">Success</option>
+              </select>
+            </div>
+            <div class="toggle-switch" style="margin: 0;">
+              <span>Auto-scroll</span>
+              <div class="switch active" onclick="this.classList.toggle('active')"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Log Container -->
+        <div class="log-container" id="logContainer">
+          <div class="log-entry">
+            <span class="log-time">00:00:01</span>
+            <span class="log-level info">INFO</span>
+            <span class="log-message">VPN Client started successfully</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">00:00:02</span>
+            <span class="log-level info">INFO</span>
+            <span class="log-message">Loading configuration from /etc/vpn-client/config.json</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">00:00:03</span>
+            <span class="log-level success">SUCCESS</span>
+            <span class="log-message">API server listening on port 8080</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">00:00:04</span>
+            <span class="log-level info">INFO</span>
+            <span class="log-message">Found 3 VPN profiles</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">00:00:05</span>
+            <span class="log-level info">INFO</span>
+            <span class="log-message">WebSocket server initialized</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">00:01:23</span>
+            <span class="log-level info">INFO</span>
+            <span class="log-message">Connection request received for profile: Home Server (WireGuard)</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">00:01:24</span>
+            <span class="log-level info">INFO</span>
+            <span class="log-message">Initiating WireGuard connection to 192.168.1.100:51820</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">00:01:25</span>
+            <span class="log-level info">INFO</span>
+            <span class="log-message">Configuring network interface wg0</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">00:01:26</span>
+            <span class="log-level info">INFO</span>
+            <span class="log-message">Setting up routing table</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">00:01:27</span>
+            <span class="log-level info">INFO</span>
+            <span class="log-message">Applying DNS configuration: 1.1.1.1</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">00:01:28</span>
+            <span class="log-level success">SUCCESS</span>
+            <span class="log-message">VPN connection established successfully</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">00:01:29</span>
+            <span class="log-level info">INFO</span>
+            <span class="log-message">Handshake completed with endpoint</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">00:02:00</span>
+            <span class="log-level info">INFO</span>
+            <span class="log-message">Traffic stats: ↑ 1.2 MB | ↓ 3.5 MB</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">00:03:00</span>
+            <span class="log-level info">INFO</span>
+            <span class="log-message">Keepalive packet sent</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">00:05:12</span>
+            <span class="log-level warn">WARN</span>
+            <span class="log-message">High latency detected: 250ms</span>
+          </div>
+          <div class="log-entry">
+            <span class="log-time">00:05:30</span>
+            <span class="log-level info">INFO</span>
+            <span class="log-message">Latency stabilized: 45ms</span>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="assets/js/logs.js"></script>
+</body>
+</html>

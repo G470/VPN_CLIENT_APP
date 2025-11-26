@@ -2,27 +2,32 @@ package api
 
 import (
 	"encoding/json"
+	"io"
 	"net/http"
 
 	"github.com/gorilla/mux"
 	"github.com/gorilla/websocket"
+	"github.com/vpn-client-app/backend/internal/connection"
+	"github.com/vpn-client-app/backend/internal/profile"
+	"github.com/vpn-client-app/backend/internal/shared/version"
 	"go.uber.org/zap"
 )
 
 type Handler struct {
-	logger   *zap.Logger
-	upgrader websocket.Upgrader
+	logger      *zap.Logger
+	upgrader    websocket.Upgrader
+	connManager *connection.Manager
+	profManager *profile.Manager
 }
 
 func NewHandler(logger *zap.Logger) *Handler {
 	return &Handler{
 		logger: logger,
 		upgrader: websocket.Upgrader{
-			CheckOrigin: func(r *http.Request) bool {
-				// TODO: Implement proper origin checking for production
-				return true
-			},
+			CheckOrigin: func(r *http.Request) bool { return true },
 		},
+		connManager: connection.NewManager(),
+		profManager: profile.NewManager(),
 	}
 }
 
@@ -55,100 +60,125 @@ type HealthResponse struct {
 }
 
 func (h *Handler) handleHealth(w http.ResponseWriter, r *http.Request) {
-	response := HealthResponse{
-		Status:  "ok",
-		Version: "0.1.0-alpha",
-	}
-	
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(response)
+	h.respondJSON(w, HealthResponse{Status: "ok", Version: version.Version})
 }
 
 func (h *Handler) handleGetConnections(w http.ResponseWriter, r *http.Request) {
-	// TODO: Implement connection listing
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode([]interface{}{})
+	list := h.connManager.List()
+	h.respondJSON(w, list)
+}
+
+type connectRequest struct {
+	ProfileID string `json:"profileId"`
 }
 
 func (h *Handler) handleConnect(w http.ResponseWriter, r *http.Request) {
-	// TODO: Implement connection logic
 	vars := mux.Vars(r)
 	id := vars["id"]
-	
-	h.logger.Info("Connect requested", zap.String("id", id))
-	
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{"status": "connecting"})
+	body, _ := io.ReadAll(r.Body)
+	var req connectRequest
+	_ = json.Unmarshal(body, &req)
+	if req.ProfileID == "" {
+		h.respondError(w, http.StatusBadRequest, "profileId required")
+		return
+	}
+	c, _ := h.connManager.Connect(id, req.ProfileID)
+	h.logger.Info("connection_connect", zap.String("id", id), zap.String("profileId", req.ProfileID))
+	h.respondJSON(w, c.ToDTO())
 }
 
 func (h *Handler) handleDisconnect(w http.ResponseWriter, r *http.Request) {
-	// TODO: Implement disconnect logic
 	vars := mux.Vars(r)
 	id := vars["id"]
-	
-	h.logger.Info("Disconnect requested", zap.String("id", id))
-	
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{"status": "disconnecting"})
+	c, _ := h.connManager.Disconnect(id)
+	h.logger.Info("connection_disconnect", zap.String("id", id))
+	if c == nil {
+		h.respondError(w, http.StatusNotFound, "not found")
+		return
+	}
+	h.respondJSON(w, c.ToDTO())
 }
 
 func (h *Handler) handleGetProfiles(w http.ResponseWriter, r *http.Request) {
-	// TODO: Implement profile listing
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode([]interface{}{})
+	h.respondJSON(w, h.profManager.List())
 }
 
 func (h *Handler) handleCreateProfile(w http.ResponseWriter, r *http.Request) {
-	// TODO: Implement profile creation
+	var req profile.CreateRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		h.respondError(w, http.StatusBadRequest, "invalid json")
+		return
+	}
+	p, err := h.profManager.Create(req)
+	if err != nil {
+		h.respondError(w, http.StatusUnprocessableEntity, err.Error())
+		return
+	}
 	w.WriteHeader(http.StatusCreated)
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{"status": "created"})
+	h.respondJSON(w, p)
 }
 
 func (h *Handler) handleGetProfile(w http.ResponseWriter, r *http.Request) {
-	// TODO: Implement profile retrieval
-	vars := mux.Vars(r)
-	id := vars["id"]
-	
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{"id": id})
+	id := mux.Vars(r)["id"]
+	p := h.profManager.Get(id)
+	if p == nil {
+		h.respondError(w, http.StatusNotFound, "not found")
+		return
+	}
+	h.respondJSON(w, p)
 }
 
 func (h *Handler) handleUpdateProfile(w http.ResponseWriter, r *http.Request) {
-	// TODO: Implement profile update
-	w.Header().Set("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(map[string]string{"status": "updated"})
+	id := mux.Vars(r)["id"]
+	var req profile.UpdateRequest
+	if err := json.NewDecoder(r.Body).Decode(&req); err != nil {
+		h.respondError(w, http.StatusBadRequest, "invalid json")
+		return
+	}
+	p, err := h.profManager.Update(id, req)
+	if err != nil {
+		h.respondError(w, http.StatusNotFound, err.Error())
+		return
+	}
+	h.respondJSON(w, p)
 }
 
 func (h *Handler) handleDeleteProfile(w http.ResponseWriter, r *http.Request) {
-	// TODO: Implement profile deletion
+	id := mux.Vars(r)["id"]
+	if !h.profManager.Delete(id) {
+		h.respondError(w, http.StatusNotFound, "not found")
+		return
+	}
 	w.WriteHeader(http.StatusNoContent)
 }
 
 func (h *Handler) handleWebSocket(w http.ResponseWriter, r *http.Request) {
 	conn, err := h.upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		h.logger.Error("WebSocket upgrade failed", zap.Error(err))
+		h.logger.Error("ws_upgrade_failed", zap.Error(err))
 		return
 	}
 	defer conn.Close()
-	
-	h.logger.Info("WebSocket connection established")
-	
-	// TODO: Implement WebSocket message handling
+	h.logger.Info("ws_connected")
 	for {
-		messageType, message, err := conn.ReadMessage()
+		mt, msg, err := conn.ReadMessage()
 		if err != nil {
-			h.logger.Error("WebSocket read error", zap.Error(err))
+			h.logger.Error("ws_read_error", zap.Error(err))
 			break
 		}
-		
-		h.logger.Debug("WebSocket message received", zap.ByteString("message", message))
-		
-		// Echo back for now
-		if err := conn.WriteMessage(messageType, message); err != nil {
-			h.logger.Error("WebSocket write error", zap.Error(err))
+		if err := conn.WriteMessage(mt, msg); err != nil {
+			h.logger.Error("ws_write_error", zap.Error(err))
 			break
 		}
 	}
+}
+
+// Helpers
+func (h *Handler) respondJSON(w http.ResponseWriter, v interface{}) {
+	w.Header().Set("Content-Type", "application/json")
+	_ = json.NewEncoder(w).Encode(v)
+}
+func (h *Handler) respondError(w http.ResponseWriter, status int, msg string) {
+	w.WriteHeader(status)
+	h.respondJSON(w, map[string]string{"error": msg})
 }

@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -12,12 +11,12 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/vpn-client-app/backend/internal/api"
+	"github.com/vpn-client-app/backend/internal/shared/version"
 	"go.uber.org/zap"
 )
 
 const (
 	defaultPort = "8080"
-	version     = "0.1.0-alpha"
 )
 
 func main() {
@@ -29,7 +28,7 @@ func main() {
 	defer logger.Sync()
 
 	logger.Info("Starting VPN Service",
-		zap.String("version", version),
+		zap.String("version", version.Version),
 	)
 
 	// Get port from environment or use default

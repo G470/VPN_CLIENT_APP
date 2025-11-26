@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VPN Client - Settings</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <div class="logo-icon">V</div>
+        <span>VPN Client</span>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" title="Notifications">🔔</button>
+        <button class="icon-btn" title="Settings">⚙️</button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Sidebar Navigation -->
+      <aside class="sidebar">
+        <nav>
+          <a href="index.html" class="nav-item">
+            <span class="nav-icon">🏠</span>
+            <span>Dashboard</span>
+          </a>
+          <a href="profiles.html" class="nav-item">
+            <span class="nav-icon">📋</span>
+            <span>Profiles</span>
+          </a>
+          <a href="settings.html" class="nav-item active">
+            <span class="nav-icon">⚙️</span>
+            <span>Settings</span>
+          </a>
+          <a href="logs.html" class="nav-item">
+            <span class="nav-icon">📄</span>
+            <span>Logs</span>
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Content Area -->
+      <main class="content-area">
+        <h1 class="page-title">Settings</h1>
+        <p class="page-subtitle">Configure your VPN client preferences</p>
+
+        <!-- General Settings -->
+        <div class="settings-section">
+          <h3>🔧 General</h3>
+          
+          <div class="toggle-switch">
+            <span>Launch at system startup</span>
+            <div class="switch" onclick="this.classList.toggle('active')"></div>
+          </div>
+
+          <div class="toggle-switch">
+            <span>Start minimized to tray</span>
+            <div class="switch" onclick="this.classList.toggle('active')"></div>
+          </div>
+
+          <div class="toggle-switch">
+            <span>Show desktop notifications</span>
+            <div class="switch active" onclick="this.classList.toggle('active')"></div>
+          </div>
+
+          <div class="form-group" style="margin-top: 20px;">
+            <label>Theme</label>
+            <select class="form-control">
+              <option>Light</option>
+              <option>Dark</option>
+              <option>System</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Connection Settings -->
+        <div class="settings-section">
+          <h3>🔌 Connection</h3>
+          
+          <div class="toggle-switch">
+            <span>Auto-connect on startup</span>
+            <div class="switch" onclick="this.classList.toggle('active')"></div>
+          </div>
+
+          <div class="toggle-switch">
+            <span>Auto-reconnect on disconnect</span>
+            <div class="switch active" onclick="this.classList.toggle('active')"></div>
+          </div>
+
+          <div class="form-group" style="margin-top: 20px;">
+            <label>Default Profile</label>
+            <select class="form-control">
+              <option>None</option>
+              <option selected>Home Server (WireGuard)</option>
+              <option>Work VPN (OpenVPN)</option>
+              <option>Cloud Gateway (WireGuard)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Connection Timeout (seconds)</label>
+            <input type="number" class="form-control" value="30">
+          </div>
+        </div>
+
+        <!-- Security Settings -->
+        <div class="settings-section">
+          <h3>🔒 Security</h3>
+          
+          <div class="toggle-switch">
+            <span>Kill switch (block traffic when VPN disconnects)</span>
+            <div class="switch active" onclick="this.classList.toggle('active')"></div>
+          </div>
+
+          <div class="toggle-switch">
+            <span>DNS leak protection</span>
+            <div class="switch active" onclick="this.classList.toggle('active')"></div>
+          </div>
+
+          <div class="toggle-switch">
+            <span>IPv6 leak protection</span>
+            <div class="switch active" onclick="this.classList.toggle('active')"></div>
+          </div>
+
+          <div class="form-group" style="margin-top: 20px;">
+            <label>Custom DNS Servers (comma-separated)</label>
+            <input type="text" class="form-control" placeholder="1.1.1.1, 8.8.8.8">
+          </div>
+        </div>
+
+        <!-- Advanced Settings -->
+        <div class="settings-section">
+          <h3>⚡ Advanced</h3>
+          
+          <div class="toggle-switch">
+            <span>Enable debug logging</span>
+            <div class="switch" onclick="this.classList.toggle('active')"></div>
+          </div>
+
+          <div class="form-group" style="margin-top: 20px;">
+            <label>MTU Size</label>
+            <input type="number" class="form-control" value="1420" placeholder="1420">
+          </div>
+
+          <div class="form-group">
+            <label>Persistent Keepalive (seconds)</label>
+            <input type="number" class="form-control" value="25" placeholder="25">
+          </div>
+
+          <div class="form-group">
+            <label>API Port</label>
+            <input type="number" class="form-control" value="8080" placeholder="8080">
+          </div>
+        </div>
+
+        <!-- Save Button -->
+        <div style="display: flex; gap: 12px;">
+          <button class="btn btn-primary">💾 Save Settings</button>
+          <button class="btn btn-secondary">↺ Reset to Defaults</button>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="assets/js/settings.js"></script>
+</body>
+</html>

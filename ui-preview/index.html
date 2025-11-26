@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VPN Client - Dashboard</title>
+  <link rel="stylesheet" href="assets/css/styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo">
+        <div class="logo-icon">V</div>
+        <span>VPN Client</span>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn" title="Notifications">🔔</button>
+        <button class="icon-btn" title="Settings">⚙️</button>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Sidebar Navigation -->
+      <aside class="sidebar">
+        <nav>
+          <a href="index.html" class="nav-item active">
+            <span class="nav-icon">🏠</span>
+            <span>Dashboard</span>
+          </a>
+          <a href="profiles.html" class="nav-item">
+            <span class="nav-icon">📋</span>
+            <span>Profiles</span>
+          </a>
+          <a href="settings.html" class="nav-item">
+            <span class="nav-icon">⚙️</span>
+            <span>Settings</span>
+          </a>
+          <a href="logs.html" class="nav-item">
+            <span class="nav-icon">📄</span>
+            <span>Logs</span>
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Content Area -->
+      <main class="content-area">
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">Manage your VPN connection</p>
+
+        <!-- Connection Card -->
+        <div class="connection-card">
+          <div class="status-indicator disconnected" id="statusIndicator">
+            <span class="status-icon">🔒</span>
+          </div>
+          <h2 class="connection-status-text" id="statusText">Disconnected</h2>
+          <p class="connection-location" id="locationText">No active connection</p>
+          <button class="connect-btn" id="connectBtn">Connect</button>
+        </div>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-label">
+              <span>⬆️</span>
+              <span>Upload</span>
+            </div>
+            <div class="stat-value">
+              <span id="uploadSpeed">0</span>
+              <span class="stat-unit">KB/s</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-label">
+              <span>⬇️</span>
+              <span>Download</span>
+            </div>
+            <div class="stat-value">
+              <span id="downloadSpeed">0</span>
+              <span class="stat-unit">KB/s</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-label">
+              <span>⏱️</span>
+              <span>Connection Time</span>
+            </div>
+            <div class="stat-value">
+              <span id="connectionTime">--:--:--</span>
+            </div>
+          </div>
+
+          <div class="stat-card">
+            <div class="stat-label">
+              <span>📊</span>
+              <span>Data Transferred</span>
+            </div>
+            <div class="stat-value">
+              <span id="dataTransferred">0</span>
+              <span class="stat-unit">MB</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="settings-section">
+          <h3>Quick Actions</h3>
+          <div class="toggle-switch">
+            <span>Auto-connect on startup</span>
+            <div class="switch" onclick="this.classList.toggle('active')"></div>
+          </div>
+          <div class="toggle-switch">
+            <span>Kill switch (block traffic when disconnected)</span>
+            <div class="switch" onclick="this.classList.toggle('active')"></div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="assets/js/dashboard.js"></script>
+</body>
+</html>
