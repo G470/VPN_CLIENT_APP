@@ -201,18 +201,31 @@ We welcome contributions! Please see our [GitHub Workflow Guide](docs/github-wor
 
 ## Roadmap
 
-### v0.1.0 - MVP (12 weeks)
+### v0.1.0 - MVP (12 weeks) - In Progress
 - [x] Project setup and documentation
-- [ ] Go backend service with WireGuard support
-- [ ] Electron GUI with basic connection interface
-- [ ] Profile import and management
+- [x] UI/UX design mockups (HTML/CSS preview)
+- [x] Dashboard interface with connection status
+- [x] Profile management interface
+- [x] Settings panel interface
+- [x] Logs viewer interface
+- [x] Navigation system (dropdown menu)
+- [x] Quick actions in header
+- [x] Responsive layout design
+- [x] Interactive prototypes with JavaScript
+- [x] Backend API structure (REST + WebSocket)
+- [x] Basic backend service setup (Go)
+- [x] Connection manager foundation
+- [x] Profile manager foundation
+- [ ] WireGuard protocol integration
+- [ ] Electron integration
 - [ ] macOS system integration
 
 ### v0.2.0 - Beta (8 weeks)
 - [ ] OpenVPN protocol support
 - [ ] Kill switch implementation
 - [ ] Split tunneling
-- [ ] Enhanced UI with statistics
+- [ ] Backend-frontend API connection
+- [ ] Real-time statistics and monitoring
 - [ ] Windows and Linux support
 
 ### v1.0.0 - Release (4 weeks)
@@ -245,8 +258,21 @@ If you discover a security vulnerability, please email security@yourcompany.com 
 
 ---
 
-**Status**: 🚧 In Development  
+**Status**: 🚧 In Active Development  
 **Version**: 0.1.0-alpha  
-**Last Updated**: November 26, 2025
+**Last Updated**: November 27, 2025
+
+**Current Focus**: Backend API development and Electron integration
+
+**Completed**:
+- ✅ UI/UX design and interactive prototypes
+- ✅ Backend service foundation (Go)
+- ✅ Project architecture and documentation
+- ✅ API structure (REST + WebSocket)
+
+**In Progress**:
+- 🔄 VPN protocol integration (WireGuard)
+- 🔄 Electron GUI setup
+- 🔄 Backend-frontend communication
 
 Contributions are welcome! Please check the project plan and open issues before starting work.

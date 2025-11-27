@@ -2,23 +2,51 @@
 
 Complete step-by-step guide for implementing the VPN client user interface.
 
+**Status**: Phase 0 Complete (HTML/CSS Prototypes) - Ready for Electron Integration
+
+## Phase 0: UI/UX Design Prototypes ✅ COMPLETED (Nov 2025)
+
+### Completed Deliverables
+- [x] HTML/CSS/JS interactive prototypes for all main screens
+- [x] Dashboard with connection status and statistics
+- [x] Profile management interface
+- [x] Settings panel with all configuration options
+- [x] Logs viewer with filtering
+- [x] Dropdown navigation menu system
+- [x] Header-integrated quick actions (Auto-connect, Kill switch)
+- [x] Responsive layout foundations
+- [x] Interactive toggle switches and controls
+- [x] Connection state animations
+- [x] Modern minimal design system
+
+**Location**: `/ui-preview/` directory contains all working prototypes
+
+**Key Design Decisions**:
+- Removed sidebar in favor of dropdown menu for space efficiency
+- Integrated quick actions directly in header for easy access
+- Clean, minimal interface with focus on connection status
+- Real-time statistics displayed in grid layout
+- Emoji icons used for prototyping (to be replaced with icon library)
+
 ## Phase 1: Core UI Foundation (Week 1-2)
 
 ### Step 1.1: Project Setup
 - [ ] Initialize Electron project with TypeScript
 - [ ] Configure React with TypeScript
 - [ ] Set up build system (webpack/vite)
-- [ ] Configure TailwindCSS
+- [ ] Configure TailwindCSS (match existing design system)
 - [ ] Set up ESLint and Prettier
 - [ ] Create basic folder structure
+- [ ] Migrate CSS variables from ui-preview/assets/css/styles.css
 
 ### Step 1.2: Main Window Shell
-- [ ] Create main window with basic layout
-- [ ] Implement window controls (minimize, close)
+- [x] Create main window with basic layout (prototyped in HTML)
+- [ ] Implement Electron window controls (minimize, close)
 - [ ] Add app icon and branding
 - [ ] Set window size constraints (min: 400x600, default: 480x720)
 - [ ] Implement window position persistence
 - [ ] Add window state management (open/close/minimize)
+- [ ] Migrate header component from prototype
 
 ### Step 1.3: System Tray Integration
 - [ ] Create system tray icon (with variants for each state)
@@ -31,82 +59,99 @@ Complete step-by-step guide for implementing the VPN client user interface.
 ## Phase 2: Connection Interface (Week 3-4)
 
 ### Step 2.1: Connection Status Component
-- [ ] Design status indicator visual states:
-  - [ ] Disconnected (gray)
-  - [ ] Connecting (yellow/animated)
-  - [ ] Connected (green)
-  - [ ] Error (red)
-- [ ] Create animated transition between states
-- [ ] Add connection timer/uptime display
-- [ ] Display current server name when connected
-- [ ] Show IP address when connected
+- [x] Design status indicator visual states (prototyped):
+  - [x] Disconnected (red gradient)
+  - [x] Connecting (yellow/animated with pulse)
+  - [x] Connected (green gradient)
+  - [x] Error (red)
+- [x] Create animated transition between states (CSS animations ready)
+- [x] Add connection timer/uptime display (placeholder implemented)
+- [x] Display current server name when connected (placeholder implemented)
+- [x] Show IP address when connected (placeholder implemented)
+- [ ] Migrate to React component
+- [ ] Connect to backend WebSocket for real-time updates
 
 ### Step 2.2: Connect/Disconnect Button
-- [ ] Create primary action button component
-- [ ] Implement button state variations:
-  - [ ] "Connect" (ready to connect)
-  - [ ] "Connecting..." (in progress)
-  - [ ] "Disconnect" (connected)
-  - [ ] Disabled state
+- [x] Create primary action button component (prototyped)
+- [x] Implement button state variations (prototyped):
+  - [x] "Connect" (ready to connect)
+  - [x] "Connecting..." (in progress)
+  - [x] "Disconnect" (connected)
+  - [x] Disabled state
+- [x] Add loading spinner for connecting state (CSS animation ready)
+- [ ] Migrate to React component
+- [ ] Implement click handlers with confirmation for disconnect
+- [ ] Add keyboard shortcuts (Cmd/Ctrl+K for connect/disconnect)
+- [ ] Connect to backend API
 - [ ] Add loading spinner for connecting state
 - [ ] Implement click handlers with confirmation for disconnect
 - [ ] Add keyboard shortcuts (Cmd/Ctrl+K for connect/disconnect)
 
 ### Step 2.3: Profile Selector
-- [ ] Create dropdown/select component for profiles
-- [ ] Display profile name and metadata (location, protocol)
-- [ ] Add profile icons (flag icons for countries)
+- [x] Create dropdown/select component for profiles (prototyped)
+- [x] Display profile name and metadata (location, protocol) (prototyped)
+- [x] Add profile icons (emoji placeholders for country flags)
+- [ ] Replace emoji with actual flag icons
 - [ ] Implement search/filter for large profile lists
-- [ ] Add "No profiles" empty state
-- [ ] Create "Add Profile" quick action in dropdown
+- [x] Add "No profiles" empty state (prototyped)
+- [x] Create "Add Profile" quick action in dropdown (prototyped)
+- [ ] Migrate to React component
+- [ ] Connect to backend profile API
 
 ### Step 2.4: Quick Stats Display
-- [ ] Design stats card layout
-- [ ] Display current IP address
-- [ ] Show connection duration
-- [ ] Display data transferred (upload/download)
-- [ ] Show latency/ping
-- [ ] Update stats in real-time (every 1-2 seconds)
+- [x] Design stats card layout (prototyped with grid)
+- [x] Display current IP address placeholder
+- [x] Show connection duration placeholder
+- [x] Display data transferred (upload/download) placeholders
+- [x] Show latency/ping placeholder
+- [ ] Migrate to React component
+- [ ] Update stats in real-time (every 1-2 seconds via WebSocket)
+- [ ] Connect to backend statistics API
 
 ## Phase 3: Profile Management (Week 5-6)
 
 ### Step 3.1: Profile List View
-- [ ] Create profile list component
-- [ ] Design profile card/item layout:
-  - [ ] Profile name
-  - [ ] Location (city, country)
-  - [ ] Protocol type badge
-  - [ ] Status indicator (if currently connected)
-  - [ ] Action menu (edit/delete)
-- [ ] Implement profile sorting (name, recent, favorite)
-- [ ] Add search functionality
-- [ ] Create empty state for no profiles
+- [x] Create profile list component (prototyped)
+- [x] Design profile card/item layout (prototyped):
+  - [x] Profile name
+  - [x] Location (city, country)
+  - [x] Protocol type badge (WireGuard/OpenVPN)
+  - [x] Status indicator (if currently connected)
+  - [x] Action menu (edit/delete)
+- [x] Implement profile sorting (name, recent, favorite) - basic structure
+- [x] Add search functionality - basic structure
+- [x] Create empty state for no profiles (prototyped)
+- [ ] Migrate to React component
+- [ ] Connect to backend profile manager
 
 ### Step 3.2: Add Profile Flow
-- [ ] Create "Add Profile" modal/dialog
-- [ ] Design method selection screen:
-  - [ ] Import configuration file
-  - [ ] Manual entry
-- [ ] Implement file picker for import
-- [ ] Create file parser preview screen
-- [ ] Build manual entry form with validation
-- [ ] Add form fields:
-  - [ ] Profile name (required)
-  - [ ] Server address (required)
-  - [ ] Protocol selection (WireGuard/OpenVPN)
-  - [ ] Port (optional)
-  - [ ] Credentials (username/password or key)
-  - [ ] Advanced options (collapsible)
+- [x] Create "Add Profile" modal/dialog (prototyped)
+- [x] Design method selection screen (prototyped):
+  - [x] Import configuration file
+  - [x] Manual entry
+- [x] Implement file picker for import - placeholder UI
+- [x] Create file parser preview screen - basic structure
+- [x] Build manual entry form with validation (prototyped)
+- [x] Add form fields (prototyped):
+  - [x] Profile name (required)
+  - [x] Server address (required)
+  - [x] Protocol selection (WireGuard/OpenVPN)
+  - [x] Port (optional)
+  - [x] Credentials (username/password or key)
+  - [x] Advanced options (collapsible)
+- [ ] Migrate to React component
+- [ ] Implement actual file parsing logic
+- [ ] Connect to backend profile creation API
 
 ### Step 3.3: Edit Profile Flow
-- [ ] Create "Edit Profile" modal (reuse Add Profile components)
+- [x] Create "Edit Profile" modal structure (can reuse Add Profile)
 - [ ] Pre-populate form with existing data
 - [ ] Add validation for changes
 - [ ] Implement save/cancel actions
 - [ ] Show confirmation for destructive changes
 
 ### Step 3.4: Delete Profile Flow
-- [ ] Add delete action to profile menu
+- [x] Add delete action to profile menu (prototyped)
 - [ ] Create confirmation dialog
 - [ ] Prevent deleting active profile
 - [ ] Implement delete animation
@@ -122,44 +167,56 @@ Complete step-by-step guide for implementing the VPN client user interface.
 ## Phase 4: Settings Panel (Week 7)
 
 ### Step 4.1: Settings Layout
-- [ ] Create settings panel component
-- [ ] Design tab-based or single-page layout
-- [ ] Organize settings into logical sections:
-  - [ ] General
-  - [ ] Connection
-  - [ ] Network
-  - [ ] Advanced
+- [x] Create settings panel component (prototyped)
+- [x] Design single-page layout with sections (prototyped)
+- [x] Organize settings into logical sections (prototyped):
+  - [x] General
+  - [x] Connection
+  - [x] Network
+  - [x] Advanced
+- [ ] Migrate to React component
 
 ### Step 4.2: General Settings
-- [ ] Launch at startup toggle
-- [ ] Auto-connect on launch toggle
-- [ ] Show notifications toggle
-- [ ] Theme selection (light/dark/system)
+- [x] Launch at startup toggle (prototyped)
+- [x] Auto-connect on launch toggle (prototyped, also in header)
+- [x] Show notifications toggle (prototyped)
+- [x] Theme selection (light/dark/system) (prototyped)
 - [ ] Language selection (future)
+- [ ] Migrate to React component
+- [ ] Connect to system settings API
 
 ### Step 4.3: Connection Settings
-- [ ] Auto-reconnect toggle
-- [ ] Reconnect attempts slider/input
-- [ ] Kill switch toggle
-- [ ] Kill switch mode dropdown (auto/always/disabled)
-- [ ] Connection timeout input
+- [x] Auto-reconnect toggle (prototyped)
+- [x] Reconnect attempts slider/input (prototyped)
+- [x] Kill switch toggle (prototyped, also in header)
+- [x] Kill switch mode dropdown (prototyped)
+- [x] Connection timeout input (prototyped)
+- [ ] Migrate to React component
+- [ ] Connect to backend connection API
 
 ### Step 4.4: Network Settings
-- [ ] DNS configuration dropdown (auto/custom)
-- [ ] Custom DNS servers input
-- [ ] IPv6 toggle (enable/disable/block when connected)
-- [ ] Split tunneling toggle
-- [ ] Split tunneling configuration (apps/IPs to exclude)
+- [x] DNS configuration dropdown (prototyped)
+- [x] Custom DNS servers input (prototyped)
+- [x] IPv6 toggle (prototyped)
+- [x] Split tunneling toggle (prototyped)
+- [x] Split tunneling configuration placeholder (prototyped)
+- [ ] Migrate to React component
+- [ ] Implement split tunneling app/IP selector
+- [ ] Connect to backend network API
 
 ### Step 4.5: Advanced Settings
-- [ ] Protocol preference dropdown
-- [ ] Log level selection
-- [ ] Enable beta features toggle
-- [ ] Export/import app settings
-- [ ] Reset to defaults button
+- [x] Protocol preference dropdown (prototyped)
+- [x] Log level selection (prototyped)
+- [x] Enable beta features toggle (prototyped)
+- [x] Export/import app settings buttons (prototyped)
+- [x] Reset to defaults button (prototyped)
+- [ ] Migrate to React component
+- [ ] Implement actual export/import logic
+- [ ] Connect to backend settings API
 
 ### Step 4.6: Settings Persistence
-- [ ] Save settings to file/storage
+- [x] Basic localStorage persistence in prototype
+- [ ] Save settings to Electron store
 - [ ] Load settings on app start
 - [ ] Implement settings validation
 - [ ] Show save confirmation
@@ -168,20 +225,24 @@ Complete step-by-step guide for implementing the VPN client user interface.
 ## Phase 5: Logs & Monitoring (Week 8)
 
 ### Step 5.1: Logs Viewer
-- [ ] Create logs panel component
-- [ ] Design log entry layout with:
-  - [ ] Timestamp
-  - [ ] Log level indicator
-  - [ ] Message text
-- [ ] Implement log level filtering (all/debug/info/warn/error)
-- [ ] Add search functionality
-- [ ] Auto-scroll to latest log (with option to disable)
+- [x] Create logs panel component (prototyped)
+- [x] Design log entry layout with (prototyped):
+  - [x] Timestamp
+  - [x] Log level indicator with colors
+  - [x] Message text
+- [x] Implement log level filtering (prototyped)
+- [x] Add search functionality (prototyped)
+- [x] Auto-scroll to latest log with toggle (prototyped)
+- [ ] Migrate to React component
 - [ ] Implement log virtualization for performance
+- [ ] Connect to backend log stream
 
 ### Step 5.2: Log Actions
-- [ ] Add "Clear logs" button
-- [ ] Implement "Export logs" to file
-- [ ] Add "Copy selection" functionality
+- [x] Add "Clear logs" button (prototyped)
+- [x] Implement "Export logs" to file button (prototyped)
+- [x] Add "Copy selection" functionality placeholder
+- [ ] Migrate to React component
+- [ ] Implement actual export/copy functionality
 - [ ] Create log detail view (expand entry)
 
 ### Step 5.3: Real-time Log Updates
